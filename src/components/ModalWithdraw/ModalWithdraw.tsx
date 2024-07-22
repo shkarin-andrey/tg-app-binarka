@@ -19,7 +19,7 @@ const ModalWithdraw: FC<IModalWithdraw> = ({ balance, setBalance, isDisabled }) 
   const intl = useIntl();
 
   const initData = useInitData();
-  const userId = initData?.user?.id;
+  const userId = initData?.user?.id.toString();
 
   const botUsername = findBotUsername();
 
@@ -66,7 +66,7 @@ const ModalWithdraw: FC<IModalWithdraw> = ({ balance, setBalance, isDisabled }) 
     const details = parseInt(values.details, 10);
     setIsLoading(true);
 
-    withdrawBalance(userId || 0, details, botUsername || '')
+    withdrawBalance(userId || '', details, botUsername || '')
       .then(() => {
         setBalance((prev) => prev - details);
         handleClose();

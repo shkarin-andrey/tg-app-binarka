@@ -1,6 +1,4 @@
-import axios from 'axios';
-
-const { VITE_APP_API_URL } = import.meta.env;
+import { api } from './api';
 
 type WithdrawBalance = {
   message: string;
@@ -8,11 +6,11 @@ type WithdrawBalance = {
 };
 
 export const withdrawBalance = async (
-  userId: number,
+  userId: string,
   amount: number,
   botUsername: string,
 ) => {
-  const res = await axios.post<WithdrawBalance>(`${VITE_APP_API_URL}/withdraw`, {
+  const res = await api.post<WithdrawBalance>(`/withdraw`, {
     userId,
     amount,
     botUsername,

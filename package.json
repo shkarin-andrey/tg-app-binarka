@@ -5,7 +5,6 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "ngrok": "ngrok http --domain=possible-moth-modern.ngrok-free.app 3000",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint:fix": "eslint ./src --ext .jsx,.js,.ts,.tsx --quiet --fix --ignore-path ./.gitignore",
@@ -44,12 +43,11 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
-    "ngrok": "^5.0.0-beta.2",
     "postcss": "^8.4.21",
     "prettier": "^2.8.7",
     "tailwindcss": "^3.3.1",
     "typescript": "^4.9.3",
-    "vite": "^4.2.0",
+    "vite": "^4.5.3",
     "vite-plugin-svgr": "^4.2.0"
   }
 }

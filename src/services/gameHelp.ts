@@ -1,9 +1,7 @@
-import axios from 'axios';
+import { api } from './api';
 
-const { VITE_APP_API_URL } = import.meta.env;
-
-export const gameHelp = async (userId: number, botUsername: string) => {
-  const res = await axios.post(`${VITE_APP_API_URL}/get-help`, {
+export const gameHelp = async (userId: string, botUsername: string) => {
+  const res = await api.post(`/get-help`, {
     userId,
     botUsername,
   });

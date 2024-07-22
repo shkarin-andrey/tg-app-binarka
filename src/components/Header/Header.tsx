@@ -26,7 +26,7 @@ const Header: FC = () => {
   }, []);
 
   const handleClick = () => {
-    const userId = initData?.user?.id;
+    const userId = initData?.user?.id.toString();
 
     if (!userId || !botUsername) return;
 

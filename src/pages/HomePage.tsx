@@ -33,7 +33,7 @@ const HomePage: FC<IHomePage> = ({ userProfile, setCount }) => {
   const viewport = useViewport();
   const utils = useUtils();
 
-  const userId = initData?.user?.id;
+  const userId = initData?.user?.id.toString();
 
   const [data, setData] = useState<number[]>([getRandom(START_RANDOM, END_RANDOM)]);
   const [time, setTime] = useState<number>(defaultTime);
@@ -75,7 +75,9 @@ const HomePage: FC<IHomePage> = ({ userProfile, setCount }) => {
 
       if (!userId || !botUsername) return;
 
-      gameResult(userId, botUsername, toggle, defaultCount);
+      const isWin = toggle ? 'true' : 'false';
+
+      gameResult(userId, botUsername, isWin, defaultCount);
     },
     [userId, botUsername],
   );

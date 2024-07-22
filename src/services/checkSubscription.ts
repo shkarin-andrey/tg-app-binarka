@@ -1,12 +1,11 @@
-import axios from 'axios';
+import { api } from './api';
 
-const { VITE_APP_API_URL } = import.meta.env;
-
-export const checkSubscription = async (userId: number, botUsername: string) => {
-  const res = await axios.get<boolean>(`${VITE_APP_API_URL}/check-subscription`, {
+export const checkSubscription = async (userId: string, botUsername: string) => {
+  const res = await api.get<{ result: boolean }>(`/check-subscription`, {
     params: {
       userId,
       botUsername,
+      reward: 100,
     },
   });
   const data = res.data;

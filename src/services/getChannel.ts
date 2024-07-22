@@ -1,6 +1,4 @@
-import axios from 'axios';
-
-const { VITE_APP_API_URL } = import.meta.env;
+import { api } from './api';
 
 export type ChannelType = {
   channel_picture: string;
@@ -9,7 +7,7 @@ export type ChannelType = {
 };
 
 export const getChannel = async (botUsername: string) => {
-  const res = await axios.post<ChannelType>(`${VITE_APP_API_URL}/get-channel`, {
+  const res = await api.post<ChannelType>(`/get-channel`, {
     botUsername,
   });
   const data = res.data;

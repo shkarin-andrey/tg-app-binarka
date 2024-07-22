@@ -1,8 +1,8 @@
 import { FC, useEffect, useState } from 'react';
 import { IntlProvider } from 'react-intl';
-import { SyncLoader } from 'react-spinners';
 
 import { useInitData, useViewport } from '@tma.js/sdk-react';
+import { SyncLoader } from 'react-spinners';
 import { ChannelContext } from '../../context/ChannelContext';
 import { LOCALES } from '../../i18n/locales';
 import { messages } from '../../i18n/messages';
@@ -16,7 +16,7 @@ import ModalSubscribe from '../ModalSubscribe';
 const App: FC = () => {
   const initData = useInitData();
   const viewport = useViewport();
-  const userId = initData?.user?.id;
+  const userId = initData?.user?.id.toString();
   const botUsername = findBotUsername();
 
   const gameCount = parseInt(localStorage.getItem('gameCount') || '0', 10);
@@ -38,8 +38,8 @@ const App: FC = () => {
       setChannel(res);
     });
 
-    checkSubscription(userId, botUsername).then((res) => {
-      setIsSubscribed(res);
+    checkSubscription(userId, botUsername).then(({ result }) => {
+      setIsSubscribed(result);
     });
   }, [userId, botUsername]);
 

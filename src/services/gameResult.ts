@@ -1,14 +1,12 @@
-import axios from 'axios';
-
-const { VITE_APP_API_URL } = import.meta.env;
+import { api } from './api';
 
 export const gameResult = async (
-  userId: number,
+  userId: string,
   botUsername: string,
-  win: boolean,
+  win: string,
   amount: number,
 ) => {
-  const res = await axios.post(`${VITE_APP_API_URL}/game-result`, {
+  const res = await api.post<{ result: boolean }>(`/game-result`, {
     userId,
     botUsername,
     win,

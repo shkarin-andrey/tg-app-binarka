@@ -1,7 +1,5 @@
-import axios from 'axios';
 import { LOCALES } from '../i18n/locales';
-
-const { VITE_APP_API_URL } = import.meta.env;
+import { api } from './api';
 
 export type UserProfileType = {
   balance: number;
@@ -17,8 +15,8 @@ export type UserProfileType = {
   wins: number;
 };
 
-export const getUserProfile = async (userId: number, botUsername: string) => {
-  const res = await axios.get<UserProfileType>(`${VITE_APP_API_URL}/user-profile`, {
+export const getUserProfile = async (userId: string, botUsername: string) => {
+  const res = await api.get<UserProfileType>(`/user-profile`, {
     params: {
       userId,
       botUsername,
