@@ -3,7 +3,7 @@ import { FC, useCallback, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import * as Yup from 'yup';
 
-import { useInitData } from '@tma.js/sdk-react';
+import { useInitData, useMiniApp } from '@tma.js/sdk-react';
 import { withdrawBalance } from '../../services/withdrawBalance';
 import { findBotUsername } from '../../utils/findBotUsername';
 import Button from '../Button';
@@ -12,6 +12,7 @@ import Modal from '../Modal';
 import { IModalWithdraw } from './ModalWithdraw.interface';
 
 const ModalWithdraw: FC<IModalWithdraw> = ({ balance, setBalance, isDisabled }) => {
+  const miniApp = useMiniApp();
   const [isOpen, setIsOpen] = useState(false);
   const [active, setActive] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -71,6 +72,7 @@ const ModalWithdraw: FC<IModalWithdraw> = ({ balance, setBalance, isDisabled }) 
         setBalance((prev) => prev - details);
         handleClose();
         formik.resetForm();
+        miniApp?.close();
       })
       .finally(() => {
         setIsLoading(false);
