@@ -144,6 +144,9 @@ const ModalWithdraw: FC<IModalWithdraw> = ({ balance, setBalance, isDisabled }) 
               USDT
             </Button>
           </div>
+          <div className='text-center mt-2'>
+            <FormattedMessage id='balance' />: {balance}$
+          </div>
           <div className='flex flex-col gap-2 mt-4'>
             <Input
               placeholder={placeholderDetails}

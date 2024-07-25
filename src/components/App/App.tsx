@@ -4,6 +4,7 @@ import { IntlProvider } from 'react-intl';
 import { useInitData, useViewport } from '@tma.js/sdk-react';
 import { SyncLoader } from 'react-spinners';
 import { ChannelContext } from '../../context/ChannelContext';
+import { SubscribeContext } from '../../context/SubscribeContext';
 import { LOCALES } from '../../i18n/locales';
 import { messages } from '../../i18n/messages';
 import HomePage from '../../pages/HomePage';
@@ -24,7 +25,7 @@ const App: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [userProfile, setUserProfile] = useState<UserProfileType | null>(null);
   const [channel, setChannel] = useState<ChannelType | null>(null);
-  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [isSubscribe, setIsSubscribe] = useState(false);
   const [count, setCount] = useState(gameCount);
 
   useEffect(() => {
@@ -39,7 +40,7 @@ const App: FC = () => {
     });
 
     checkSubscription(userId, botUsername).then(({ result }) => {
-      setIsSubscribed(result);
+      setIsSubscribe(result);
     });
   }, [userId, botUsername]);
 
@@ -49,13 +50,13 @@ const App: FC = () => {
     getUserProfile(userId, botUsername).then((res) => {
       setUserProfile(res);
 
-      if (!isSubscribed && count >= 5) {
+      if (!isSubscribe && count >= 5) {
         setIsOpen(true);
       } else {
         setIsOpen(false);
       }
     });
-  }, [userId, botUsername, isSubscribed, count]);
+  }, [userId, botUsername, isSubscribe, count]);
 
   if (!userProfile)
     return (
@@ -65,18 +66,20 @@ const App: FC = () => {
     );
 
   return (
-    <ChannelContext.Provider value={channel}>
-      <IntlProvider
-        messages={messages[LOCALES[userProfile?.languageCode || 'en'].value]}
-        locale={LOCALES[userProfile?.languageCode || 'en'].value}
-        defaultLocale={LOCALES.en.value}
-      >
-        <HomePage userProfile={userProfile} setCount={setCount} />
-        {channel && !isSubscribed && (
-          <ModalSubscribe isOpen={isOpen} onClose={() => setIsOpen(false)} />
-        )}
-      </IntlProvider>
-    </ChannelContext.Provider>
+    <SubscribeContext.Provider value={{ isSubscribe, setIsSubscribe }}>
+      <ChannelContext.Provider value={channel}>
+        <IntlProvider
+          messages={messages[LOCALES[userProfile?.languageCode || 'en'].value]}
+          locale={LOCALES[userProfile?.languageCode || 'en'].value}
+          defaultLocale={LOCALES.en.value}
+        >
+          <HomePage userProfile={userProfile} setCount={setCount} />
+          {channel && !isSubscribe && (
+            <ModalSubscribe isOpen={isOpen} onClose={() => setIsOpen(false)} />
+          )}
+        </IntlProvider>
+      </ChannelContext.Provider>
+    </SubscribeContext.Provider>
   );
 };
 

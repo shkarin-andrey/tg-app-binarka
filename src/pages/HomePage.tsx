@@ -1,6 +1,6 @@
 import { FC, useCallback, useContext, useEffect, useState } from 'react';
 
-import { useInitData, useUtils, useViewport } from '@tma.js/sdk-react';
+import { useInitData, useUtils } from '@tma.js/sdk-react';
 import { FormattedMessage } from 'react-intl';
 import CupIcon from '../assets/icons/cup.svg';
 import Balance from '../components/Balance';
@@ -10,6 +10,8 @@ import Header from '../components/Header';
 import Time from '../components/Time';
 import { END_RANDOM, START_RANDOM } from '../config';
 import { ChannelContext } from '../context/ChannelContext';
+import { SubscribeContext } from '../context/SubscribeContext';
+import { checkSubscription } from '../services/checkSubscription';
 import { gameResult } from '../services/gameResult';
 import { UserProfileType } from '../services/getUserProfile';
 import { findBotUsername } from '../utils/findBotUsername';
@@ -28,9 +30,9 @@ const defaultTime = parseInt(VITE_TIME_SECOND, 10) || 5;
 
 const HomePage: FC<IHomePage> = ({ userProfile, setCount }) => {
   const context = useContext(ChannelContext);
+  const contextSubscribe = useContext(SubscribeContext);
 
   const initData = useInitData();
-  const viewport = useViewport();
   const utils = useUtils();
 
   const userId = initData?.user?.id.toString();
@@ -77,7 +79,11 @@ const HomePage: FC<IHomePage> = ({ userProfile, setCount }) => {
 
       const isWin = toggle ? 'true' : 'false';
 
-      gameResult(userId, botUsername, isWin, defaultCount);
+      gameResult(userId, botUsername, isWin, defaultCount).then(() => {
+        checkSubscription(userId, botUsername).then(({ result }) => {
+          contextSubscribe.setIsSubscribe(result);
+        });
+      });
     },
     [userId, botUsername],
   );
@@ -136,9 +142,8 @@ const HomePage: FC<IHomePage> = ({ userProfile, setCount }) => {
 
   return (
     <div
-      className='w-full bg-[#1C1C1D] px-4 pt-5 pb-10 flex flex-col justify-between gap-5 overflow-y-auto'
+      className='w-full bg-[#1C1C1D] px-4 pt-5 pb-10 flex flex-col h-screen gap-5 overflow-y-auto'
       style={{
-        minHeight: viewport?.stableHeight || '100vh',
         overscrollBehavior: 'none',
       }}
     >
@@ -147,7 +152,8 @@ const HomePage: FC<IHomePage> = ({ userProfile, setCount }) => {
         <Chart data={data} count={count} start={start} end={end} isWin={isWin} />
         <Time value={time} />
       </div>
-      <div className='w-full flex flex-col gap-[10px]'>
+
+      <div className='w-full flex flex-col h-full gap-[10px] justify-center'>
         <Button
           className='w-full bg-purple text-xs sm:text-[13px] md:text-[14px] font-medium'
           leftIcon={<CupIcon />}
