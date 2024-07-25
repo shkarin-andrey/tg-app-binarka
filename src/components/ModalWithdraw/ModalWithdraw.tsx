@@ -119,7 +119,7 @@ const ModalWithdraw: FC<IModalWithdraw> = ({ balance, setBalance, isDisabled }) 
         <FormattedMessage id='withdraw_btn' />
       </Button>
 
-      <Modal isOpen={isOpen} onClose={handleClose}>
+      <Modal isOpen={isOpen} onClose={handleClose} className='!justify-start mt-10'>
         <form onSubmit={formik.handleSubmit} className='min-w-[285px]'>
           <div className='text-center font-bold text-lg'>
             <FormattedMessage id='withdraw_funds' />

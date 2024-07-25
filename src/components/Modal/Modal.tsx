@@ -6,7 +6,7 @@ import ReactPortal from '../ReactPortal';
 import { IModal } from './Modal.interface';
 import style from './Modal.module.css';
 
-const Modal: FC<IModal> = ({ children, isOpen, onClose }) => {
+const Modal: FC<IModal> = ({ children, isOpen, onClose, className = '' }) => {
   const nodeRef = useRef(null);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const Modal: FC<IModal> = ({ children, isOpen, onClose }) => {
         classNames={style.modal}
         nodeRef={nodeRef}
       >
-        <div className={style.modal} ref={nodeRef}>
+        <div className={`${style.modal} ${className}`} ref={nodeRef}>
           <div className='rounded-xl pb-5 pt-10 px-4 bg-[#313131] text-white relative'>
             {onClose && (
               <div
